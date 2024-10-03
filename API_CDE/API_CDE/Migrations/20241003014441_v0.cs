@@ -716,6 +716,7 @@ namespace API_CDE.Migrations
 
             migrationBuilder.DropTable(
                 name: "PositionGroups");
+
         }
     }
 }

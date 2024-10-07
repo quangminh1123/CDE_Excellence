@@ -108,7 +108,7 @@ namespace API_CDE.Data
             modelBuilder.Entity<Distributor>()
             .HasOne(a => a.Area)
             .WithMany(d => d.distributors)
-            .HasForeignKey(d => d.IdDis)
+            .HasForeignKey(d => d.IdArea)
             .OnDelete(DeleteBehavior.NoAction);
 
             //Quan hệ khóa ngoại Job

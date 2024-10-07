@@ -56,7 +56,12 @@ namespace API_CDE.Migrations
                         .HasColumnType("varchar(40)");
 
                     b.Property<string>("Phone")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("varchar(12)");
+
+                    b.Property<string>("Role")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
 
                     b.Property<string>("Status")
                         .IsRequired()
@@ -283,7 +288,10 @@ namespace API_CDE.Migrations
             modelBuilder.Entity("API_CDE.Models.Distributor", b =>
                 {
                     b.Property<int>("IdDis")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("IdDis"), 1L, 1);
 
                     b.Property<string>("Address")
                         .IsRequired()
@@ -301,7 +309,7 @@ namespace API_CDE.Migrations
                         .HasColumnType("nvarchar(150)");
 
                     b.Property<string>("Phone")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("varchar(12)");
 
                     b.Property<string>("Status")
                         .IsRequired()
@@ -309,6 +317,8 @@ namespace API_CDE.Migrations
                         .HasColumnType("nvarchar(100)");
 
                     b.HasKey("IdDis");
+
+                    b.HasIndex("IdArea");
 
                     b.HasIndex("IdManager");
 
@@ -411,6 +421,11 @@ namespace API_CDE.Migrations
                     b.Property<int>("IdCreator")
                         .HasColumnType("int");
 
+                    b.Property<string>("Status")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
                     b.Property<string>("Title")
                         .IsRequired()
                         .HasColumnType("ntext");
@@ -500,7 +515,7 @@ namespace API_CDE.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("IdSuAr"), 1L, 1);
 
                     b.Property<DateTime>("CreateDate")
-                        .HasColumnType("datetime2");
+                        .HasColumnType("date");
 
                     b.Property<int>("IdCreator")
                         .HasColumnType("int");
@@ -752,9 +767,8 @@ namespace API_CDE.Migrations
                 {
                     b.HasOne("API_CDE.Models.Area", "Area")
                         .WithMany("distributors")
-                        .HasForeignKey("IdDis")
-                        .OnDelete(DeleteBehavior.NoAction)
-                        .IsRequired();
+                        .HasForeignKey("IdArea")
+                        .OnDelete(DeleteBehavior.NoAction);
 
                     b.HasOne("API_CDE.Models.Account", "Account")
                         .WithMany("ManagedDistributors")

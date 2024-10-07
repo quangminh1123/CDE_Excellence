@@ -17,6 +17,9 @@ namespace API_CDE.Models
         [Column(TypeName = "date")]
         public DateTime CreateDate { get; set; } = DateTime.Now;
 
+        [Required, MaxLength(100)]
+        public string Status { get; set; }
+
         public int IdCreator { get; set; }
 
         public Account? Account { get; set; }

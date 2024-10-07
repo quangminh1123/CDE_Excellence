@@ -15,7 +15,7 @@ namespace API_CDE.Models
         [Required]
         public string Address { get; set; }
 
-        [Phone]
+        [Column(TypeName = "varchar(12)")]
         public string? Phone { get; set; }
 
         public int? IdArea { get; set; }

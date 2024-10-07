@@ -1,12 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using API_CDE.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using API_CDE.Data;
-using API_CDE.Models;
+using System.Security.Cryptography.X509Certificates;
 
 namespace API_CDE.Controllers
 {
@@ -14,111 +9,40 @@ namespace API_CDE.Controllers
     [ApiController]
     public class PositionsController : ControllerBase
     {
-        private readonly ApplicationDBContext _context;
-
-        public PositionsController(ApplicationDBContext context)
+        private readonly IPosition position;
+        public PositionsController(IPosition position)
         {
-            _context = context;
+            this.position = position;
         }
 
-        // GET: api/Positions
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Position>>> GetPositions()
+        public ActionResult Get()
         {
-          if (_context.Positions == null)
-          {
-              return NotFound();
-          }
-            return await _context.Positions.ToListAsync();
+            return Ok(position.PositionList());
         }
 
-        // GET: api/Positions/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<Position>> GetPosition(int id)
+        public ActionResult GetById(int id)
         {
-          if (_context.Positions == null)
-          {
-              return NotFound();
-          }
-            var position = await _context.Positions.FindAsync(id);
-
-            if (position == null)
-            {
-                return NotFound();
-            }
-
-            return position;
+            return Ok(position.GetPosition(id));
         }
 
-        // PUT: api/Positions/5
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPut("{id}")]
-        public async Task<IActionResult> PutPosition(int id, Position position)
-        {
-            if (id != position.IdPos)
-            {
-                return BadRequest();
-            }
-
-            _context.Entry(position).State = EntityState.Modified;
-
-            try
-            {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!PositionExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
-
-            return NoContent();
-        }
-
-        // POST: api/Positions
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<Position>> PostPosition(Position position)
+        public ActionResult Add(string name, int idPostionGroup)
         {
-          if (_context.Positions == null)
-          {
-              return Problem("Entity set 'ApplicationDBContext.Positions'  is null.");
-          }
-            _context.Positions.Add(position);
-            await _context.SaveChangesAsync();
-
-            return CreatedAtAction("GetPosition", new { id = position.IdPos }, position);
+            var po = position.AddPostion(name, idPostionGroup);
+            if (po == null)
+                return BadRequest();
+            return CreatedAtAction("Add", po);
         }
 
-        // DELETE: api/Positions/5
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> DeletePosition(int id)
+        [HttpPut("{id}")]
+        public ActionResult Update(int id, string name)
         {
-            if (_context.Positions == null)
-            {
-                return NotFound();
-            }
-            var position = await _context.Positions.FindAsync(id);
-            if (position == null)
-            {
-                return NotFound();
-            }
-
-            _context.Positions.Remove(position);
-            await _context.SaveChangesAsync();
-
-            return NoContent();
-        }
-
-        private bool PositionExists(int id)
-        {
-            return (_context.Positions?.Any(e => e.IdPos == id)).GetValueOrDefault();
+            var pos = position.UpdatePosition(id, name);
+            if (pos == null)
+                return BadRequest();
+            return Ok(pos);
         }
     }
 }

@@ -13,7 +13,8 @@ namespace API_CDE.Models
 
         public int IdCreator { get; set; }
 
-        public DateTime CreateDate { get; set; }
+        [Column(TypeName = "date")]
+        public DateTime CreateDate { get; set; } = DateTime.Now;
 
         [Required, MaxLength(100)]
         public string Status { get; set; }

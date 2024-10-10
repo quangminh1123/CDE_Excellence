@@ -8,11 +8,14 @@ namespace API_CDE.Models
         [Key]
         public int IdViSc { get; set; }
 
-        [Required]
+        [Required, MaxLength(100)]
         public string Session {  get; set; }
 
-        [Required]
+        [Required,MaxLength(200)]
         public string Purpose { get; set; }
+
+        [Required, MaxLength(100)]
+        public string Status {  get; set; }
 
         public int? IdDistributor { get; set; }
 

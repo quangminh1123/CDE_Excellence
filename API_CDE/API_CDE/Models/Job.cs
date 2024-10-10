@@ -27,13 +27,10 @@ namespace API_CDE.Models
 
         public int IdImplementer {  get; set; }
 
-        public int IdAnnunciator { get; set; }
-
         public int IdCreator { get; set; }
 
         public VisitSchedule? VisitSchedule { get; set; }
         public Account? Implementer {  get; set; }
-        public Account? Annunciator { get; set; }
         public Account? Creator { get; set; }
         public ICollection<JobImage>? JobImages { get; set; }
     }

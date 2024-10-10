@@ -15,14 +15,6 @@ namespace API_CDE.Controllers
             this.account = account;
         }
 
-        [HttpPost]
-        [Route("Login")]
-        public ActionResult Login(string email, string password)
-        {
-            var acc = account.Login(email, password);
-            return Ok(acc);
-        }
-
         [HttpGet]
         public ActionResult GetUser()
         {
@@ -43,7 +35,7 @@ namespace API_CDE.Controllers
         public ActionResult UpdateUser(int id, string fullName, string email, int? idPosition, string status)
         {
             var acc = account.UpdateUser(id, fullName, email, idPosition, status);
-            if(acc == null)
+            if (acc == null)
                 return BadRequest();
             return Ok(acc);
         }

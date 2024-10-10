@@ -11,7 +11,7 @@ namespace API_CDE.Models
         [Required, MaxLength(100)]
         public string Image {  get; set; }
 
-        public int IdManager { get; set; }
+        public int IdCreator { get; set; }
 
         public Account? Account { get; set; }
     }

@@ -8,7 +8,7 @@ namespace API_CDE.Models
         [Key]
         public int IdQuestion { get; set; }
 
-        [Required, Column(TypeName = "ntext")]
+        [Required]
         public string Content { get; set; }
 
         public bool IsMultipleChoice { get; set; } = false;

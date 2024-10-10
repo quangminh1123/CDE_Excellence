@@ -41,7 +41,7 @@ namespace API_CDE.Controllers
             var suAr = surveyArticle.UpdateSuAr(id, title, status);
             if (suAr == null)
                 return BadRequest();
-            return Ok();
+            return Ok(suAr);
         }
 
         [HttpDelete("{id}")]

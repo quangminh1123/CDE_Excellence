@@ -89,7 +89,7 @@ namespace API_CDE.Data
             modelBuilder.Entity<ArticleImage>()
              .HasOne(a => a.Account)
              .WithMany(d => d.articleImages)
-             .HasForeignKey(d => d.IdManager)
+             .HasForeignKey(d => d.IdCreator)
              .OnDelete(DeleteBehavior.NoAction);
 
             //Quan hệ khóa ngoại DateVist
@@ -117,11 +117,6 @@ namespace API_CDE.Data
                 .WithMany(d => d.jobImplementers)
                 .HasForeignKey(d => d.IdImplementer)
                 .OnDelete(DeleteBehavior.NoAction);
-            modelBuilder.Entity<Job>()
-               .HasOne(a => a.Annunciator)
-               .WithMany(d => d.jobAnnunciators)
-               .HasForeignKey(d => d.IdAnnunciator)
-               .OnDelete(DeleteBehavior.NoAction);
             modelBuilder.Entity<Job>()
                .HasOne(a => a.Creator)
                .WithMany(d => d.jobCreators)

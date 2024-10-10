@@ -7,6 +7,5 @@ namespace API_CDE.Services
         public IEnumerable<Account> UserList();
         public Account AddUser(string fullName, string email, int? idPosition, string status);
         public Account UpdateUser(int id, string fullName, string email, int? idPosition, string status);
-        public string Login(string email, string password);
     }
 }

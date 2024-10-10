@@ -8,8 +8,8 @@ namespace API_CDE.Models
         [Key]
         public int IdSuRe { get; set; }
 
-        [Required, Column(TypeName = "ntext")]
-        public int Title { get; set; }
+        [Required, MaxLength(150)]
+        public string Title { get; set; }
 
         public int IdCreator {  get; set; }
 

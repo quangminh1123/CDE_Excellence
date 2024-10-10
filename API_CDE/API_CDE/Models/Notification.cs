@@ -8,10 +8,10 @@ namespace API_CDE.Models
         [Key]
         public int IdNoti { get; set; }
 
-        [Required, Column(TypeName = "ntext")]
+        [Required]
         public string Title { get; set; }
 
-        [Required, Column(TypeName = "ntext")]
+        [Required]
         public string Content { get; set; }
 
         [Column(TypeName = "date")]

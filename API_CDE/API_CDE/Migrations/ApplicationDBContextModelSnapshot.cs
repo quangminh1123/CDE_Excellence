@@ -165,7 +165,7 @@ namespace API_CDE.Migrations
 
                     b.Property<string>("Content")
                         .IsRequired()
-                        .HasColumnType("ntext");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("IdQuestion")
                         .HasColumnType("int");
@@ -249,7 +249,7 @@ namespace API_CDE.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("IdArIm"), 1L, 1);
 
-                    b.Property<int>("IdManager")
+                    b.Property<int>("IdCreator")
                         .HasColumnType("int");
 
                     b.Property<string>("Image")
@@ -259,7 +259,7 @@ namespace API_CDE.Migrations
 
                     b.HasKey("IdArIm");
 
-                    b.HasIndex("IdManager");
+                    b.HasIndex("IdCreator");
 
                     b.ToTable("ArticleImages");
                 });
@@ -340,9 +340,6 @@ namespace API_CDE.Migrations
                     b.Property<DateTime>("EndDate")
                         .HasColumnType("date");
 
-                    b.Property<int>("IdAnnunciator")
-                        .HasColumnType("int");
-
                     b.Property<int>("IdCreator")
                         .HasColumnType("int");
 
@@ -366,8 +363,6 @@ namespace API_CDE.Migrations
 
                     b.HasKey("IdJob");
 
-                    b.HasIndex("IdAnnunciator");
-
                     b.HasIndex("IdCreator");
 
                     b.HasIndex("IdImplementer");
@@ -387,7 +382,8 @@ namespace API_CDE.Migrations
 
                     b.Property<string>("Descibe")
                         .IsRequired()
-                        .HasColumnType("ntext");
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
 
                     b.Property<int>("IdJob")
                         .HasColumnType("int");
@@ -413,7 +409,7 @@ namespace API_CDE.Migrations
 
                     b.Property<string>("Content")
                         .IsRequired()
-                        .HasColumnType("ntext");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("CreateDate")
                         .HasColumnType("date");
@@ -428,7 +424,7 @@ namespace API_CDE.Migrations
 
                     b.Property<string>("Title")
                         .IsRequired()
-                        .HasColumnType("ntext");
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("IdNoti");
 
@@ -491,7 +487,7 @@ namespace API_CDE.Migrations
 
                     b.Property<string>("Content")
                         .IsRequired()
-                        .HasColumnType("ntext");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("IdSuAr")
                         .HasColumnType("int");
@@ -558,7 +554,8 @@ namespace API_CDE.Migrations
 
                     b.Property<string>("Title")
                         .IsRequired()
-                        .HasColumnType("ntext");
+                        .HasMaxLength(150)
+                        .HasColumnType("nvarchar(150)");
 
                     b.HasKey("IdSuRe");
 
@@ -608,11 +605,18 @@ namespace API_CDE.Migrations
 
                     b.Property<string>("Purpose")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
 
                     b.Property<string>("Session")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.Property<string>("Status")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
 
                     b.HasKey("IdViSc");
 
@@ -745,7 +749,7 @@ namespace API_CDE.Migrations
                 {
                     b.HasOne("API_CDE.Models.Account", "Account")
                         .WithMany("articleImages")
-                        .HasForeignKey("IdManager")
+                        .HasForeignKey("IdCreator")
                         .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
@@ -782,12 +786,6 @@ namespace API_CDE.Migrations
 
             modelBuilder.Entity("API_CDE.Models.Job", b =>
                 {
-                    b.HasOne("API_CDE.Models.Account", "Annunciator")
-                        .WithMany("jobAnnunciators")
-                        .HasForeignKey("IdAnnunciator")
-                        .OnDelete(DeleteBehavior.NoAction)
-                        .IsRequired();
-
                     b.HasOne("API_CDE.Models.Account", "Creator")
                         .WithMany("jobCreators")
                         .HasForeignKey("IdCreator")
@@ -805,8 +803,6 @@ namespace API_CDE.Migrations
                         .HasForeignKey("IdViSc")
                         .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
-
-                    b.Navigation("Annunciator");
 
                     b.Navigation("Creator");
 
@@ -939,8 +935,6 @@ namespace API_CDE.Migrations
                     b.Navigation("articleImages");
 
                     b.Navigation("articles");
-
-                    b.Navigation("jobAnnunciators");
 
                     b.Navigation("jobCreators");
 

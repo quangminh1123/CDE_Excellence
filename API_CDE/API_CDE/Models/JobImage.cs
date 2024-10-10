@@ -11,7 +11,7 @@ namespace API_CDE.Models
         [Required]
         public string Image {  get; set; }
 
-        [Column(TypeName = "ntext"), Required]
+        [Required, MaxLength(100)]
         public string Descibe { get; set; }
 
         public int IdJob { get; set; }

@@ -48,7 +48,6 @@ namespace API_CDE.Models
         public ICollection<ArticleImage>? articleImages { get; set; }
         public ICollection<Distributor>? ManagedDistributors { get; set; }
         public ICollection<Job>? jobImplementers { get; set; }
-        public ICollection<Job>? jobAnnunciators { get; set; }
         public ICollection<Job>? jobCreators { get; set; }
         public ICollection<Notification>? notifications { get; set; }
         public ICollection<SurveyArticle>? surveyArticles { get; set; }

@@ -14,10 +14,22 @@ namespace API_CDE.Controllers
             this.notification = notification;
         }
 
+        [HttpGet]
+        public ActionResult Get()
+        {
+            return Ok(notification.NotificationList());
+        }
+
         [HttpGet("ByCreator/{idCreator}")]
         public ActionResult GetByIdCreator(int idCreator)
         {
             return Ok(notification.GetByIdAccount(idCreator));
+        }
+
+        [HttpGet("ByReceiver/{idReceiver}")]
+        public ActionResult GetByIdReceiver(int idReceiver)
+        {
+            return Ok(notification.GetByIdReceiver(idReceiver));
         }
 
         [HttpGet("{idNoti}")]
@@ -33,6 +45,13 @@ namespace API_CDE.Controllers
             if (noti == null)
                 return BadRequest();
             return CreatedAtAction("Add", noti);
+        }
+
+        [HttpGet]
+        [Route("Search")]
+        public ActionResult Searh(string keyword)
+        {
+            return Ok(notification.SearchNotification(keyword));
         }
     }
 }

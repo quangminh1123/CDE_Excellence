@@ -9,7 +9,7 @@ namespace API_CDE.Models
         [Key]
         public int IdAnswer { get; set; }
 
-        [Required, Column(TypeName = "ntext")]
+        [Required]
         public string Content { get; set; }
 
         public int IdQuestion { get; set; }

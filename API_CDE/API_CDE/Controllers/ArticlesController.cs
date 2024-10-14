@@ -1,4 +1,5 @@
 ﻿using API_CDE.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -14,17 +15,20 @@ namespace API_CDE.Controllers
             this.article = article;
         }
 
+        [Authorize(Roles = "Owner")]
         [HttpGet]
         public ActionResult Get()
         {
             return Ok(article.ArticleList());
         }
 
+        [Authorize(Roles = "Owner,Admin,User")]
         [HttpGet("{id}")]
         public ActionResult Get(int id) {
             return Ok(article.GetArticle(id));
         }
 
+        [Authorize(Roles = "Owner")]
         [HttpPost]
         public ActionResult Add(string title, string descibe, string path, IFormFile image, int idCreator)
         {
@@ -34,6 +38,7 @@ namespace API_CDE.Controllers
             return CreatedAtAction("Add", ar);
         }
 
+        [Authorize(Roles = "Owner")]
         [HttpPut("{id}")]
         public ActionResult Update(int id, string title, string descibe, string path, IFormFile image)
         {
@@ -43,6 +48,7 @@ namespace API_CDE.Controllers
             return Ok(ar);
         }
 
+        [Authorize(Roles = "Owner")]
         [HttpPut("UpdateStatus/{id}")]
         public ActionResult Update(int id, string status)
         {
@@ -52,6 +58,7 @@ namespace API_CDE.Controllers
             return Ok(ar);
         }
 
+        [Authorize(Roles = "Owner")]
         [HttpDelete]
         public ActionResult Delete(int id) {
             var ar = article.Delete(id);

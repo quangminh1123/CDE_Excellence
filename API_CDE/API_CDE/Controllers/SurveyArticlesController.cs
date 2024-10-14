@@ -1,4 +1,5 @@
 ﻿using API_CDE.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -14,18 +15,21 @@ namespace API_CDE.Controllers
             this.surveyArticle = surveyArticle;
         }
 
+        [Authorize(Roles = "Owner")]
         [HttpGet]
         public ActionResult Get()
         {
             return Ok(surveyArticle.SuArList());
         }
 
+        [Authorize(Roles = "Owner")]
         [HttpGet("{id}")]
         public ActionResult GetId(int id)
         {
             return Ok(surveyArticle.GetById(id));
         }
 
+        [Authorize(Roles = "Owner")]
         [HttpPost]
         public ActionResult Add(string title, int idCreator, string status)
         {
@@ -35,6 +39,7 @@ namespace API_CDE.Controllers
             return CreatedAtAction("Add", suAr);
         }
 
+        [Authorize(Roles = "Owner")]
         [HttpPut("{id}")]
         public ActionResult Update(int id, string title, string status)
         {
@@ -44,6 +49,7 @@ namespace API_CDE.Controllers
             return Ok(suAr);
         }
 
+        [Authorize(Roles = "Owner")]
         [HttpDelete("{id}")]
         public ActionResult Delete(int id)
         {

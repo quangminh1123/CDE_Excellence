@@ -1,4 +1,5 @@
 ﻿using API_CDE.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Xml.Linq;
@@ -15,18 +16,21 @@ namespace API_CDE.Controllers
             this.group = group;
         }
 
+        [Authorize(Roles = "Owner,Admin")]
         [HttpGet]
         public ActionResult Get()
         {
             return Ok(group.PositionGroupList());
         }
 
+        [Authorize(Roles = "Owner,Admin")]
         [HttpGet("{id}")]
         public ActionResult Get(int id)
         {
             return Ok(group.GetPositionGroupById(id));
         }
 
+        [Authorize(Roles = "Owner,Admin")]
         [HttpPost]
         public ActionResult Add(string name)
         {
@@ -36,6 +40,7 @@ namespace API_CDE.Controllers
             return CreatedAtAction("Add", poGr);
         }
 
+        [Authorize(Roles = "Owner,Admin")]
         [HttpPut("{id}")]
         public ActionResult Update(int id, string name)
         {
@@ -45,6 +50,7 @@ namespace API_CDE.Controllers
             return Ok(poGr);
         }
 
+        [Authorize(Roles = "Owner,Admin")]
         [HttpDelete("{id}")]
         public ActionResult Delete(int id)
         {

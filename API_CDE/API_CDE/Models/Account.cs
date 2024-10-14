@@ -22,6 +22,8 @@ namespace API_CDE.Models
         [Column(TypeName = "varchar(12)")]
         public string? Phone { get; set; }
 
+        public string? Address {  get; set; }
+
         [Required, MaxLength(100)]
         public string Role { get; set; }
 

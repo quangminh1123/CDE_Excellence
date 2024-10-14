@@ -84,7 +84,7 @@ builder.Services.AddScoped<IDateVisit, DateVisitResponse>();
 builder.Services.AddScoped<IVisitor, VisitResponse>();
 builder.Services.AddScoped<IJob, JobResponse>();
 builder.Services.AddScoped<IJobImage, JobImageResponse>();
-builder.Services.AddScoped<ISystemSecurity, SystemSecurityResponse>();
+builder.Services.AddScoped<IAuthenticationSecurity, AuthenticationSecurityResponse>();
 
 var app = builder.Build();
 

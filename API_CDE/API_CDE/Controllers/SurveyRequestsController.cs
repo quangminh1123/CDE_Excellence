@@ -1,4 +1,5 @@
 ﻿using API_CDE.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -14,23 +15,27 @@ namespace API_CDE.Controllers
             this.surveyRequest = surveyRequest;
         }
 
+        [Authorize(Roles = "Owner")]
         [HttpGet]
         public ActionResult Get()
         {
             return Ok(surveyRequest.SurveyRequestList());
         }
 
+        [Authorize(Roles = "Owner")]
         [HttpGet("{id}")]
         public ActionResult Get(int id)
         {
             return Ok(surveyRequest.GetSurveyRequest(id));
         }
 
+        [Authorize(Roles = "Owner")]
         [HttpGet("ByReceiver/{idReceiver}")]
         public ActionResult GetByIdReceiver(int idReceiver) {
             return Ok(surveyRequest.GetByIdReceiver(idReceiver));
         }
 
+        [Authorize(Roles = "Owner")]
         [HttpPost]
         public ActionResult Add(string title, int idCreator, int idSurveyArticle, DateTime startDate, DateTime endDate)
         {

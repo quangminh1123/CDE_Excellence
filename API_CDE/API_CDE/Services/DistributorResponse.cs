@@ -90,9 +90,10 @@ namespace API_CDE.Services
                 return null;
             }
         }
-        private bool IsValidPhone(string phone)
+        public bool IsValidPhone(string phone)
         {
-            var regex = new Regex(@"^(03|05|07|08|09)[0-9]{8}$");
+            string pattern = @"^(?:\+84|0)(?:3[2-9]|5[6|8|9]|7[0|6-9]|8[1-5]|9[0-9]|2[0-9]{1})\d{7}$";
+            Regex regex = new Regex(pattern);
             return regex.IsMatch(phone);
         }
     }

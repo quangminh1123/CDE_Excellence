@@ -1,4 +1,5 @@
 ﻿using API_CDE.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -14,12 +15,14 @@ namespace API_CDE.Controllers
             this.articleImage = articleImage;
         }
 
+        [Authorize(Roles = "Owner")]
         [HttpGet]
         public ActionResult Get()
         {
             return Ok(articleImage.ArticleImageList());
         }
 
+        [Authorize(Roles = "Owner")]
         [HttpPost]
         public ActionResult Add(IFormFile image, int idCreator)
         {
@@ -29,6 +32,7 @@ namespace API_CDE.Controllers
             return CreatedAtAction("Add", arIm);
         }
 
+        [Authorize(Roles = "Owner")]
         [HttpDelete("{id}")]
         public ActionResult Delete(int id) {
             string arIm = articleImage.Delete(id);

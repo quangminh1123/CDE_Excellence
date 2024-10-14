@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace API_CDE.Controllers
 {
-    [Authorize(Roles = "Admin")]
+    [Authorize(Roles = "Owner")]
     [Route("api/[controller]")]
     [ApiController]
     public class AccountAnswersController : ControllerBase
@@ -17,12 +17,14 @@ namespace API_CDE.Controllers
             this.accountAnswer = accountAnswer;
         }
 
+        [Authorize(Roles = "Owner,Admin,User")]
         [HttpGet("{idQuestion}")]
         public ActionResult GetByIdQuestion(int idQuestion)
         {
             return Ok(accountAnswer.GetByIdQuestion(idQuestion));
         }
 
+        [Authorize(Roles = "Owner,Admin,User")]
         [HttpPost]
         public ActionResult Add(int idQuestion, int idAnswer, int idAccount)
         {

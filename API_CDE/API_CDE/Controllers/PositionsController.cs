@@ -1,4 +1,5 @@
 ﻿using API_CDE.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Cryptography.X509Certificates;
@@ -15,18 +16,21 @@ namespace API_CDE.Controllers
             this.position = position;
         }
 
+        [Authorize(Roles = "Owner,Admin")]
         [HttpGet]
         public ActionResult Get()
         {
             return Ok(position.PositionList());
         }
 
+        [Authorize(Roles = "Owner,Admin")]
         [HttpGet("{id}")]
         public ActionResult GetById(int id)
         {
             return Ok(position.GetPosition(id));
         }
 
+        [Authorize(Roles = "Owner,Admin")]
         [HttpPost]
         public ActionResult Add(string name, int idPostionGroup)
         {
@@ -36,6 +40,7 @@ namespace API_CDE.Controllers
             return CreatedAtAction("Add", po);
         }
 
+        [Authorize(Roles = "Owner,Admin")]
         [HttpPut("{id}")]
         public ActionResult Update(int id, string name)
         {

@@ -1,4 +1,5 @@
 ﻿using API_CDE.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Cryptography.X509Certificates;
@@ -15,18 +16,21 @@ namespace API_CDE.Controllers
             this.area = area;
         }
 
+        [Authorize(Roles = "Owner")]
         [HttpGet]
         public ActionResult Get()
         {
             return Ok(area.AreaList());
         }
 
+        [Authorize(Roles = "Owner")]
         [HttpGet("{id}")]
         public ActionResult GetId(int id)
         {
             return Ok(area.GetAreaById(id));
         }
 
+        [Authorize(Roles = "Owner")]
         [HttpGet]
         [Route("Search")]
         public ActionResult Search(string keyword)
@@ -34,6 +38,7 @@ namespace API_CDE.Controllers
             return Ok(area.SearchArea(keyword));
         }
 
+        [Authorize(Roles = "Owner")]
         [HttpPost]
         public ActionResult Add(string code, string name)
         {
@@ -43,6 +48,7 @@ namespace API_CDE.Controllers
             return CreatedAtAction("Add", ar);
         }
 
+        [Authorize(Roles = "Owner")]
         [HttpPut("{id}")]
         public ActionResult Update(int id, string name)
         {
@@ -52,6 +58,7 @@ namespace API_CDE.Controllers
             return Ok(are);
         }
 
+        [Authorize(Roles = "Owner")]
         [HttpDelete("{id}")]
         public ActionResult Delete(int id)
         {

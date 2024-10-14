@@ -5,14 +5,15 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Security.Cryptography;
 using System.Text;
+using System.Text.RegularExpressions;
 
 namespace API_CDE.Services
 {
-    public class SystemSecurityResponse : ISystemSecurity
+    public class AuthenticationSecurityResponse : IAuthenticationSecurity
     {
         private readonly ApplicationDBContext _context;
         private IConfiguration _configuration;
-        public SystemSecurityResponse(ApplicationDBContext context, IConfiguration configuration)
+        public AuthenticationSecurityResponse(ApplicationDBContext context, IConfiguration configuration)
         {
             _context = context;
             _configuration = configuration;
@@ -24,6 +25,46 @@ namespace API_CDE.Services
             if (account == null)
                 return "Email or password is incorrect";
             return GetToken(account);
+        }
+
+        public string ChangePassword(int id, string password)
+        {
+            try
+            {
+                if (!IsValidPassword(password))
+                    return "Password must be at least 8 characters including lower case, upper case, digital numbers and special characters";
+                var acc = _context.Accounts.Find(id);
+                if (acc == null)
+                    return "Not found";
+                acc.Password = HashMD5(password);
+                _context.SaveChanges();
+                return "Update Success";
+            }
+            catch (Exception)
+            {
+
+                return "Cannot Update";
+            }
+        }
+
+        public string ResetPassword(int id)
+        {
+            try
+            {
+                var acc = _context.Accounts.Find(id);
+                if (acc == null)
+                    return "Not found";
+                if (acc.Role == "Owner")
+                    return "Cannot update Owner password";
+                acc.Password = HashMD5("Add1123@");
+                _context.SaveChanges();
+                return "Update Success";
+            }
+            catch (Exception)
+            {
+
+                return "Cannot Update";
+            }
         }
 
         public string HashMD5(string password)
@@ -63,6 +104,13 @@ namespace API_CDE.Services
                 signingCredentials: signIn
             );
             return new JwtSecurityTokenHandler().WriteToken(token);
+        }
+
+        public bool IsValidPassword(string password)
+        {
+            string pattern = @"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).{8,}$";
+            Regex regex = new Regex(pattern);
+            return regex.IsMatch(password);
         }
     }
 }

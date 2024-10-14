@@ -2,6 +2,8 @@
 using API_CDE.Models;
 using System.Text.Json.Serialization;
 using System.Text.Json;
+using System.Text.Encodings.Web;
+using System.Text.Unicode;
 
 namespace API_CDE.Services
 {
@@ -54,6 +56,7 @@ namespace API_CDE.Services
             {
                 var options = new JsonSerializerOptions
                 {
+                    Encoder = JavaScriptEncoder.Create(UnicodeRanges.All),
                     ReferenceHandler = ReferenceHandler.Preserve,
                     WriteIndented = true
                 };

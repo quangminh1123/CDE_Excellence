@@ -32,11 +32,6 @@ namespace API_CDE.Services
 
         public IEnumerable<AccountAnswer> GetByIdQuestion(int idQuestion)
         {
-            //var options = new JsonSerializerOptions
-            //{
-            //    ReferenceHandler = ReferenceHandler.Preserve,
-            //    WriteIndented = true
-            //};
             var acAn = _context.AccountAnswers.Where(x => x.IdQuestion == idQuestion).ToList();
             return acAn;
         }

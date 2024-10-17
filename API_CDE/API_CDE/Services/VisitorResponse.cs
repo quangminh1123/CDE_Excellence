@@ -3,10 +3,10 @@ using API_CDE.Models;
 
 namespace API_CDE.Services
 {
-    public class VisitResponse : IVisitor
+    public class VisitorResponse : IVisitor
     {
         private readonly ApplicationDBContext _context;
-        public VisitResponse(ApplicationDBContext context) => _context = context;
+        public VisitorResponse(ApplicationDBContext context) => _context = context;
 
         public Visitor Add(int idAcc, int idViSc)
         {

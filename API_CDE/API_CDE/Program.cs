@@ -81,7 +81,7 @@ builder.Services.AddScoped<IArticle, ArticleResponse>();
 builder.Services.AddScoped<IArticleImage, ArticleImageResponse>();
 builder.Services.AddScoped<IVisitSchedule, VisitScheduleResponse>();
 builder.Services.AddScoped<IDateVisit, DateVisitResponse>();
-builder.Services.AddScoped<IVisitor, VisitResponse>();
+builder.Services.AddScoped<IVisitor, VisitorResponse>();
 builder.Services.AddScoped<IJob, JobResponse>();
 builder.Services.AddScoped<IJobImage, JobImageResponse>();
 builder.Services.AddScoped<IAuthenticationSecurity, AuthenticationSecurityResponse>();

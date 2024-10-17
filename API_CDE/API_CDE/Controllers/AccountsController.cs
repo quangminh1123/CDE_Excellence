@@ -30,15 +30,6 @@ namespace API_CDE.Controllers
             return Ok(account.GetUser(idAccount));
         }
 
-        [HttpPost("AddStaff")]
-        public ActionResult AddStaff(string fullName, string email, string status)
-        {
-            var add = account.AddStaff(fullName, email, status);
-            if (add == null)
-                return BadRequest();
-            return CreatedAtAction("AddStaff", add);
-        }
-
         [Authorize(Roles = "Owner,Admin")]
         [HttpPost]
         [Route("AddUser")]

@@ -26,33 +26,6 @@ namespace API_CDE.Services
             _configuration = configuration;
         }
 
-        public Account AddStaff(string fullName, string email, string status)
-        {
-
-            try
-            {
-                var emailExit = _context.Accounts.Where(x => x.Email == email).FirstOrDefault();
-                if (emailExit != null)
-                    return null;
-                var account = new Account()
-                {
-                    FullName = fullName,
-                    Email = email,
-                    Status = status,
-                    Role = "Admin",
-                    Password = HashMD5("Add1123@")
-                };
-                _context.Accounts.Add(account);
-                _context.SaveChanges();
-                return account;
-            }
-            catch (Exception)
-            {
-
-                return null;
-            }
-        }
-
         public Account AddUser(string fullName, string email, int? idPosition, string status)
         {
             try
@@ -133,7 +106,7 @@ namespace API_CDE.Services
                     Email = email,
                     IdPosition = idPosition,
                     IdManager = idManager,
-                    Role = "User",
+                    Role = "Admin",
                     Status = status,
                     Password = HashMD5("Add1123@")
                 };

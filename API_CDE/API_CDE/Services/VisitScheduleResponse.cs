@@ -46,8 +46,6 @@ namespace API_CDE.Services
 
         public string Search(DateTime startDate, DateTime endDate, string status, int idDistributor)
         {
-            //DateTime date1 = _context.DateVisits.Where(x => x.Date == startDate).Select(x => x.Date).FirstOrDefault();
-            //DateTime date2 = _context.DateVisits.Where(x => x.Date == endDate).Select(x => x.Date).FirstOrDefault();
             try
             {
                 var options = new JsonSerializerOptions
@@ -56,8 +54,9 @@ namespace API_CDE.Services
                     ReferenceHandler = ReferenceHandler.Preserve,
                     WriteIndented = true
                 };
-                var viSC = _context.VisitSchedules.Include(x => x.dateVisits).Where(x => x.dateVisits.Any(d => d.Date >= startDate && d.Date <= endDate))
-               .Where(x => x.Status == status).Where(x => x.IdDistributor == idDistributor);
+                var viSC = _context.VisitSchedules.Include(x => x.dateVisits).Include(x=>x.visitors)
+                    .Where(x => x.dateVisits.Any(d => d.Date >= startDate && d.Date <= endDate))
+                    .Where(x => x.Status.ToLower().Contains(status.ToLower())).Where(x => x.IdDistributor == idDistributor);
                 var json = JsonSerializer.Serialize(viSC, options);
                 return json;
             }

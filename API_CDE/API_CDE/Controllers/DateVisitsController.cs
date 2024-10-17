@@ -15,14 +15,14 @@ namespace API_CDE.Controllers
             this.dateVisit = dateVisit;
         }
 
-        [Authorize(Roles = "Owner,Admin,User")]
+        //[Authorize(Roles = "Owner,Admin,User")]
         [HttpGet("{idVisitSchedule}")]
         public ActionResult GetByIdViSc(int idVisitSchedule)
         {
             return Ok(dateVisit.dateVisitByIdViSc(idVisitSchedule));
         }
 
-        [Authorize(Roles = "Owner,Admin,User")]
+        //[Authorize(Roles = "Owner,Admin,User")]
         [HttpPost]
         public ActionResult Add(DateTime date, int idVisitSchedule)
         {

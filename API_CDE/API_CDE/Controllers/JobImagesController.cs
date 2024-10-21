@@ -15,14 +15,14 @@ namespace API_CDE.Controllers
             this.jobImage = jobImage;
         }
 
-        [Authorize(Roles = "Owner,Admin,User")]
+        //[Authorize(Roles = "Owner,Admin,User")]
         [HttpGet("{idJob}")]
         public ActionResult Get(int idJob)
         {
             return Ok(jobImage.GetImageByIdJob(idJob));
         }
 
-        [Authorize(Roles = "Owner,Admin,User")]
+        //[Authorize(Roles = "Owner,Admin,User")]
         [HttpPost]
         public ActionResult Add(IFormFile image, string describe, int idJob)
         {

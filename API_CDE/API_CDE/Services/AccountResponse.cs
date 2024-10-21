@@ -53,7 +53,7 @@ namespace API_CDE.Services
             }
         }
 
-        public Account GetUser(int id)
+        public Account GetAccount(int id)
         {
             return _context.Accounts.FirstOrDefault(x => x.IdAcc == id);
         }
@@ -76,7 +76,7 @@ namespace API_CDE.Services
         {
             try
             {
-                var emailExit = _context.Accounts.Where(x => x.Email == email).FirstOrDefault();
+                var emailExit = _context.Accounts.Where(x => x.Email == email && x.IdAcc != id).FirstOrDefault();
                 if (emailExit != null)
                     return null;
                 var us = _context.Accounts.Find(id);
@@ -125,7 +125,7 @@ namespace API_CDE.Services
         {
             try
             {
-                var mailExist = _context.Accounts.Where(x => x.Email == email).FirstOrDefault();
+                var mailExist = _context.Accounts.Where(x => x.Email == email && x.IdAcc != id).FirstOrDefault();
                 if (mailExist != null)
                     return null;
                 var acc = _context.Accounts.Find(id);
@@ -201,7 +201,7 @@ namespace API_CDE.Services
             }
         }
 
-        public Account UpdatePersonalAccount(int id, string fullName, string phone, string address)
+        public Account UpdateYourInfo(int id, string fullName, string phone, string address)
         {
             try
             {

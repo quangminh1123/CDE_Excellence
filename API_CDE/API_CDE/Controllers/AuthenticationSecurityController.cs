@@ -20,28 +20,55 @@ namespace API_CDE.Controllers
         [Route("Login")]
         public ActionResult Login(string email, string password)
         {
-            var acc = security.Login(email, password);
-            return Ok(acc);
+            try
+            {
+                var token = security.Login(email, password);
+                return Ok(token);
+            }
+            catch (Exception ex)
+            {
+
+                return BadRequest(ex.Message);
+            }
         }
 
-        [Authorize(Roles = "Owner,Admin,User")]
         [HttpPut("ChangePassword/{idAccount}")]
         public ActionResult ChangePassword(int idAccount, string password)
         {
-            var acc = security.ChangePassword(idAccount, password);
-            if (acc == "Update Success")
-                return Ok();
-            return BadRequest(acc);
+            try
+            {
+                var acc = security.ChangePassword(idAccount, password);
+                if (acc == "Update Success")
+                    return Ok();
+                return BadRequest(acc);
+            }
+            catch (Exception)
+            {
+                return BadRequest("Cannot change password");
+            }
         }
 
         [Authorize(Roles = "Owner,Admin")]
         [HttpPut("ResetPassword/{idAccount}")]
         public ActionResult ResetPassword(int idAccount)
         {
-            var acc = security.ResetPassword(idAccount);
-            if (acc == "Update Success")
-                return Ok();
-            return BadRequest(acc);
+            try
+            {
+
+                if (!User.Identity.IsAuthenticated)
+                {
+                    return Unauthorized(new { message = "You are not logged in. Please login to continue." });
+                }
+                var acc = security.ResetPassword(idAccount);
+                if (acc == "Update Success")
+                    return Ok();
+                return BadRequest(acc);
+            }
+            catch (Exception)
+            {
+
+                return BadRequest("Cannot reset password");
+            }
         }
 
     }

@@ -14,7 +14,7 @@ namespace API_CDE.Services
             {
                 var img = new JobImage()
                 {
-                    Image = $"Images/JobImages/{SaveImage(image)}",
+                    Image = SaveImage(image),
                     Descibe = describe,
                     IdJob = idJob
                 };
@@ -49,7 +49,7 @@ namespace API_CDE.Services
             {
                 imageFile.CopyToAsync(fileStream);
             }
-            return imageFile.FileName;
+            return $"Images/JobImages/{imageFile.FileName}";
         }
     }
 }

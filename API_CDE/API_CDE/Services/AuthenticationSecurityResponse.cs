@@ -21,10 +21,18 @@ namespace API_CDE.Services
 
         public string Login(string email, string password)
         {
-            var account = _context.Accounts.Where(x => x.Email.ToLower() == email.ToLower() && x.Password == HashMD5(password)).FirstOrDefault();
-            if (account == null)
-                return "Email or password is incorrect";
-            return GetToken(account);
+            try
+            {
+                var account = _context.Accounts.Where(x => x.Email.ToLower() == email.ToLower() && x.Password == HashMD5(password)).FirstOrDefault();
+                if (account == null)
+                    return "Email or password is incorrect";
+                return GetToken(account);
+            }
+            catch (Exception ex)
+            {
+
+                return ($"Error: {ex.Message}");
+            }
         }
 
         public string ChangePassword(int id, string password)
@@ -43,7 +51,7 @@ namespace API_CDE.Services
             catch (Exception)
             {
 
-                return "Cannot Update";
+                return "Cannot change password";
             }
         }
 
@@ -63,7 +71,7 @@ namespace API_CDE.Services
             catch (Exception)
             {
 
-                return "Cannot Update";
+                return "Cannot reset password";
             }
         }
 

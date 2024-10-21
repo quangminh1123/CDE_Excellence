@@ -23,14 +23,14 @@ namespace API_CDE.Controllers
             return Ok(account.AccountList());
         }
 
-        [Authorize(Roles = "Owner,Admin,User")]
+        //[Authorize(Roles = "Owner,Admin,User")]
         [HttpGet("{idAccount}")]
         public ActionResult GetUser(int idAccount)
         {
-            return Ok(account.GetUser(idAccount));
+            return Ok(account.GetAccount(idAccount));
         }
 
-        [Authorize(Roles = "Owner,Admin")]
+        //[Authorize(Roles = "Owner,Admin")]
         [HttpPost]
         [Route("AddUser")]
         public ActionResult AddUser(string fullName, string email, int? idPosition, string status)
@@ -41,7 +41,7 @@ namespace API_CDE.Controllers
             return CreatedAtAction("AddUser", add);
         }
 
-        [Authorize(Roles = "Owner,Admin")]
+        //[Authorize(Roles = "Owner,Admin")]
         [HttpPut("UpdateUser/{id}")]
         public ActionResult UpdateUser(int id, string fullName, string email, int? idPosition, string status)
         {
@@ -51,7 +51,7 @@ namespace API_CDE.Controllers
             return Ok(acc);
         }
 
-        [Authorize(Roles = "Owner,Admin")]
+        //[Authorize(Roles = "Owner,Admin")]
         [HttpPost("AddSale")]
         public ActionResult AddSale(string fullName, string email, int idPosition, int idManager, string status)
         {
@@ -61,7 +61,7 @@ namespace API_CDE.Controllers
             return CreatedAtAction("AddSale", acc);
         }
 
-        [Authorize(Roles = "Owner,Admin")]
+        //[Authorize(Roles = "Owner,Admin")]
         [HttpPut("UpdateSale/{id}")]
         public ActionResult Update(int id, string fullName, string email, int idPosition, int idManager, int? idDistributor, string status)
         {
@@ -71,7 +71,7 @@ namespace API_CDE.Controllers
             return Ok(acc);
         }
 
-        [Authorize(Roles = "Owner,Admin")]
+        //[Authorize(Roles = "Owner,Admin")]
         [HttpDelete("Delete")]
         public ActionResult Delete(int id)
         {
@@ -81,7 +81,7 @@ namespace API_CDE.Controllers
             return BadRequest(acc);
         }
 
-        [Authorize(Roles = "Owner,Admin")]
+        //[Authorize(Roles = "Owner,Admin")]
         [HttpPut("AddSubordinate")]
         public ActionResult AddSubordinate(int idAccount, int idManager)
         {
@@ -91,7 +91,7 @@ namespace API_CDE.Controllers
             return Ok(acc);
         }
 
-        [Authorize(Roles = "Owner,Admin")]
+        //[Authorize(Roles = "Owner,Admin")]
         [HttpPut("DeleteSubordinate")]
         public ActionResult DeleteSubordinate(int idAccount)
         {
@@ -101,11 +101,11 @@ namespace API_CDE.Controllers
             return Ok(acc);
         }
 
-        [Authorize(Roles = "Owner,Admin,User")]
-        [HttpPut("UpdateUserByUser")]
+        //[Authorize(Roles = "Owner,Admin,User")]
+        [HttpPut("UpdateYourInfo")]
         public ActionResult Update(int id, string fullName, string phone, string address)
         {
-            var acc = account.UpdatePersonalAccount(id, fullName, phone, address);
+            var acc = account.UpdateYourInfo(id, fullName, phone, address);
             if (acc == null)
                 return BadRequest();
             return Ok(acc);

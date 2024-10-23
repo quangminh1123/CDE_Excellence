@@ -15,7 +15,7 @@ namespace API_CDE.Controllers
             this.surveyArticle = surveyArticle;
         }
 
-        [Authorize(Roles = "Owner")]
+        //[Authorize(Roles = "Owner")]
         [HttpGet]
         public ActionResult Get()
         {

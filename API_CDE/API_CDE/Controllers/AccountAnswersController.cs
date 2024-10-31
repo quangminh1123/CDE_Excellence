@@ -10,7 +10,6 @@ namespace API_CDE.Controllers
     [ApiController]
     public class AccountAnswersController : ControllerBase
     {
-
         private readonly IAccountAnswer accountAnswer;
         public AccountAnswersController(IAccountAnswer accountAnswer)
         {

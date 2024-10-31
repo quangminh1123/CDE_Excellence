@@ -33,6 +33,7 @@ namespace API_CDE.Controllers
         }
 
         [HttpPut("ChangePassword/{idAccount}")]
+        [Authorize(Roles = "Owner,Admin,User")]
         public ActionResult ChangePassword(int idAccount, string password)
         {
             try
@@ -54,11 +55,6 @@ namespace API_CDE.Controllers
         {
             try
             {
-
-                if (!User.Identity.IsAuthenticated)
-                {
-                    return Unauthorized(new { message = "You are not logged in. Please login to continue." });
-                }
                 var acc = security.ResetPassword(idAccount);
                 if (acc == "Update Success")
                     return Ok();

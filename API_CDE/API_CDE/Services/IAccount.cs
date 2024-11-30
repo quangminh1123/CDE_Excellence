@@ -4,7 +4,7 @@ namespace API_CDE.Services
 {
     public interface IAccount
     {
-        public string AccountList();
+        public IEnumerable<Account> AccountList();
         public Account GetAccount(int id);
         public Account AddUser(string fullName, string email, int? idPosition, string status);
         public Account UpdateUser(int id, string fullName, string email, int? idPosition, string status);

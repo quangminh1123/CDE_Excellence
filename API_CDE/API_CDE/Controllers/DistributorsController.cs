@@ -15,7 +15,7 @@ namespace API_CDE.Controllers
             this.distributor = distributor;
         }
 
-        [Authorize(Roles = "Owner,Admin")]
+        //[Authorize(Roles = "Owner,Admin")]
         [HttpGet]
         public ActionResult Get()
         {
@@ -29,7 +29,7 @@ namespace API_CDE.Controllers
             return Ok(distributor.GetDistributor(id));
         }
 
-        [Authorize(Roles = "Owner")]
+        //[Authorize(Roles = "Owner")]
         [HttpPost]
         public ActionResult Add(string name, string address, string phone, int? idArea, int? idManager, string status)
         {

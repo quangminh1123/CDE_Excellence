@@ -15,7 +15,7 @@ namespace API_CDE.Models
         [Required, Column(TypeName = "varchar(100)"), EmailAddress]
         public string Email { get; set; }
 
-        [Required, Column(TypeName = "varchar(40)"), RegularExpression(@"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).{8,}$",
+        [Required, Column(TypeName = "varchar(100)"), RegularExpression(@"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).{8,}$",
         ErrorMessage = "Password must be at least 8 characters including lower case, upper case, digital numbers and special characters")]
         public string Password { get; set; }
 

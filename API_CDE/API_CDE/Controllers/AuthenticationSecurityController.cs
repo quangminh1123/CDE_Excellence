@@ -32,8 +32,8 @@ namespace API_CDE.Controllers
             }
         }
 
+        //[Authorize(Roles = "Owner,Admin,User")]
         [HttpPut("ChangePassword/{idAccount}")]
-        [Authorize(Roles = "Owner,Admin,User")]
         public ActionResult ChangePassword(int idAccount, string password)
         {
             try
@@ -49,7 +49,7 @@ namespace API_CDE.Controllers
             }
         }
 
-        [Authorize(Roles = "Owner,Admin")]
+        //[Authorize(Roles = "Owner,Admin")]
         [HttpPut("ResetPassword/{idAccount}")]
         public ActionResult ResetPassword(int idAccount)
         {

@@ -23,7 +23,7 @@ namespace API_CDE.Services
         {
             try
             {
-                var account = _context.Accounts.Where(x => x.Email.ToLower() == email.ToLower() && x.Password == HashMD5(password)).FirstOrDefault();
+                var account = _context.Accounts.Where(x => x.Email.ToLower() == email.ToLower() && x.Password == HashPassword(password)).FirstOrDefault();
                 if (account == null)
                     return "Email or password is incorrect";
                 return GetToken(account);
@@ -44,7 +44,7 @@ namespace API_CDE.Services
                 var acc = _context.Accounts.Find(id);
                 if (acc == null)
                     return "Not found";
-                acc.Password = HashMD5(password);
+                acc.Password = HashPassword(password);
                 _context.SaveChanges();
                 return "Update Success";
             }
@@ -63,8 +63,8 @@ namespace API_CDE.Services
                 if (acc == null)
                     return "Not found";
                 if (acc.Role == "Owner")
-                    return "Cannot update Owner password";
-                acc.Password = HashMD5("Add1123@");
+                    return "Cannot update Owner password";  
+                acc.Password = HashPassword("Add1123@");
                 _context.SaveChanges();
                 return "Update Success";
             }
@@ -75,17 +75,21 @@ namespace API_CDE.Services
             }
         }
 
-        public string HashMD5(string password)
+        public string HashPassword(string password)
         {
-            MD5 md5 = MD5.Create();
-            byte[] passBytes = Encoding.UTF8.GetBytes(password);
-            byte[] hashBytes = md5.ComputeHash(passBytes);
-            StringBuilder builder = new StringBuilder();
-            for (int i = 0; i < hashBytes.Length; i++)
+            using (SHA256 sha256 = SHA256.Create())
             {
-                builder.Append(hashBytes[i].ToString("x2"));
+                byte[] passBytes = Encoding.UTF8.GetBytes(password);
+                byte[] hashBytes = sha256.ComputeHash(passBytes);
+
+                StringBuilder builder = new StringBuilder();
+                for (int i = 0; i < hashBytes.Length; i++)
+                {
+                    builder.Append(hashBytes[i].ToString("x2"));
+                }
+
+                return builder.ToString();
             }
-            return builder.ToString();
         }
 
         public string GetToken(Account account)

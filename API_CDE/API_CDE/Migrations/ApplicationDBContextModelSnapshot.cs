@@ -56,7 +56,7 @@ namespace API_CDE.Migrations
 
                     b.Property<string>("Password")
                         .IsRequired()
-                        .HasColumnType("varchar(40)");
+                        .HasColumnType("varchar(100)");
 
                     b.Property<string>("Phone")
                         .HasColumnType("varchar(12)");

@@ -1,7 +1,9 @@
-﻿using API_CDE.Services;
+﻿using API_CDE.Models;
+using API_CDE.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace API_CDE.Controllers
 {
@@ -15,20 +17,39 @@ namespace API_CDE.Controllers
             this.article = article;
         }
 
-        [Authorize(Roles = "Owner")]
+        //[Authorize(Roles = "Owner")]
         [HttpGet]
-        public ActionResult Get()
+        public ActionResult Get(int page = 1)
         {
-            return Ok(article.ArticleList());
+            int pagesize = 3; //mặc định 3 items trên 1 trang
+            var skip = (page - 1) * pagesize;
+            var articles = article.ArticleList().Skip(skip).Take(pagesize).ToList();
+
+            if (articles == null || !articles.Any())
+            {
+                return NotFound("Không có dữ liệu");
+            }
+
+            var totalItems = article.ArticleList().Count();
+            var totalPages = (int)Math.Ceiling((double)totalItems / pagesize);
+            //var result = new
+            //{
+            //    Page = page,
+            //    PageSize = 3,
+            //    TotalItems = totalItems,
+            //    TotalPages = totalPages,
+            //    Items = areas
+            //}
+            return Ok(articles);
         }
 
         [Authorize(Roles = "Owner,Admin,User")]
         [HttpGet("{id}")]
-        public ActionResult Get(int id) {
+        public ActionResult GetId(int id) {
             return Ok(article.GetArticle(id));
         }
 
-        [Authorize(Roles = "Owner")]
+        //[Authorize(Roles = "Owner")]
         [HttpPost]
         public ActionResult Add(string title, string descibe, string path, IFormFile image, int idCreator)
         {

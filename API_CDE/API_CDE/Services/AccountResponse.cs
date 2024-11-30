@@ -32,7 +32,7 @@ namespace API_CDE.Services
             {
                 var emailExit = _context.Accounts.Where(x => x.Email == email).FirstOrDefault();
                 if (emailExit != null)
-                    return null;
+                    throw new ArgumentException("Email đã tồn tại");
                 var account = new Account()
                 {
                     FullName = fullName,
@@ -40,16 +40,20 @@ namespace API_CDE.Services
                     IdPosition = idPosition,
                     Status = status,
                     Role = "User",
-                    Password = HashMD5("Add1123@")
+                    Password = HashPassword("Add1123@")
                 };
                 _context.Accounts.Add(account);
                 _context.SaveChanges();
                 return account;
             }
+            catch (ArgumentException)
+            {
+                throw;//ném lại ngoại lệ
+            }
             catch (Exception)
             {
 
-                return null;
+                 throw new Exception("Không thể tạo người dùng");
             }
         }
 
@@ -58,18 +62,17 @@ namespace API_CDE.Services
             return _context.Accounts.FirstOrDefault(x => x.IdAcc == id);
         }
 
-        public string AccountList()
+        public IEnumerable<Account> AccountList()
         {
-            var options = new JsonSerializerOptions
-            {
-                Encoder = JavaScriptEncoder.Create(UnicodeRanges.All),
-                ReferenceHandler = ReferenceHandler.Preserve,
-                WriteIndented = true
-            };
+            //var options = new JsonSerializerOptions
+            //{
+            //    Encoder = JavaScriptEncoder.Create(UnicodeRanges.All),
+            //    WriteIndented = true
+            //};
 
-            var accounts = _context.Accounts.Where(x => x.Role != "Owner");
-            var json = JsonSerializer.Serialize(accounts, options);
-            return json;
+            var accounts = _context.Accounts.Where(x => x.Role != "Owner").ToList();
+            //var json = JsonSerializer.Serialize(accounts, options);
+            return accounts;
         }
 
         public Account UpdateUser(int id, string fullName, string email, int? idPosition, string status)
@@ -108,7 +111,7 @@ namespace API_CDE.Services
                     IdManager = idManager,
                     Role = "Admin",
                     Status = status,
-                    Password = HashMD5("Add1123@")
+                    Password = HashPassword("Add1123@")
                 };
                 _context.Accounts.Add(acc);
                 _context.SaveChanges();
@@ -231,17 +234,21 @@ namespace API_CDE.Services
             return regex.IsMatch(phone);
         }
 
-        public string HashMD5(string password)
+        public string HashPassword(string password)
         {
-            MD5 md5 = MD5.Create();
-            byte[] passBytes = Encoding.UTF8.GetBytes(password);
-            byte[] hashBytes = md5.ComputeHash(passBytes);
-            StringBuilder builder = new StringBuilder();
-            for (int i = 0; i < hashBytes.Length; i++)
+            using (SHA256 sha256 = SHA256.Create())
             {
-                builder.Append(hashBytes[i].ToString("x2"));
+                byte[] passBytes = Encoding.UTF8.GetBytes(password);
+                byte[] hashBytes = sha256.ComputeHash(passBytes);
+
+                StringBuilder builder = new StringBuilder();
+                for (int i = 0; i < hashBytes.Length; i++)
+                {
+                    builder.Append(hashBytes[i].ToString("x2"));
+                }
+
+                return builder.ToString();
             }
-            return builder.ToString();
         }
     }
 }

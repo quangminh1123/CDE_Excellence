@@ -3,6 +3,7 @@ using API_CDE.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace API_CDE.Controllers
 {
@@ -16,32 +17,53 @@ namespace API_CDE.Controllers
             this.account = account;
         }
 
-        [Authorize(Roles = "Owner,Admin")]
+        //[Authorize(Roles = "Owner,Admin")]
         [HttpGet]
-        public ActionResult GetUsers()
+        public ActionResult GetUsers(int page = 1)
         {
-            return Ok(account.AccountList());
+            int pagesize = 3; //mặc định 3 items trên 1 trang
+            var skip = (page - 1) * pagesize;
+            var accounts = account.AccountList().Skip(skip).Take(pagesize).ToList();
+
+            if (accounts == null || !accounts.Any())
+            {
+                return NotFound("Không có dữ liệu");
+            }
+
+            var totalItems = account.AccountList().Count();
+            var totalPages = (int)Math.Ceiling((double)totalItems / pagesize);
+            return Ok(accounts);
         }
 
-        [Authorize(Roles = "Owner,Admin,User")]
+        //[Authorize(Roles = "Owner,Admin,User")]
         [HttpGet("{idAccount}")]
         public ActionResult GetUser(int idAccount)
         {
             return Ok(account.GetAccount(idAccount));
         }
 
-        [Authorize(Roles = "Owner,Admin")]
+        //[Authorize(Roles = "Owner,Admin")]
         [HttpPost]
         [Route("AddUser")]
         public ActionResult AddUser(string fullName, string email, int? idPosition, string status)
         {
-            var add = account.AddUser(fullName, email, idPosition, status);
-            if (add == null)
-                return BadRequest();
-            return CreatedAtAction("AddUser", add);
+            try
+            {
+                var add = account.AddUser(fullName, email, idPosition, status);
+                return CreatedAtAction("AddUser", add);
+            }
+            catch (ArgumentException ex)
+            {
+
+                return BadRequest(ex.Message);
+            }
+            catch (Exception ex)
+            {
+                   return BadRequest(ex.Message);
+            }
         }
 
-        [Authorize(Roles = "Owner,Admin")]
+        //[Authorize(Roles = "Owner,Admin")]
         [HttpPut("UpdateUser/{id}")]
         public ActionResult UpdateUser(int id, string fullName, string email, int? idPosition, string status)
         {
@@ -51,7 +73,7 @@ namespace API_CDE.Controllers
             return Ok(acc);
         }
 
-        [Authorize(Roles = "Owner,Admin")]
+        //[Authorize(Roles = "Owner,Admin")]
         [HttpPost("AddSale")]
         public ActionResult AddSale(string fullName, string email, int idPosition, int idManager, string status)
         {
@@ -61,7 +83,7 @@ namespace API_CDE.Controllers
             return CreatedAtAction("AddSale", acc);
         }
 
-        [Authorize(Roles = "Owner,Admin")]
+        //[Authorize(Roles = "Owner,Admin")]
         [HttpPut("UpdateSale/{id}")]
         public ActionResult Update(int id, string fullName, string email, int idPosition, int idManager, int? idDistributor, string status)
         {
@@ -71,7 +93,7 @@ namespace API_CDE.Controllers
             return Ok(acc);
         }
 
-        [Authorize(Roles = "Owner,Admin")]
+        //[Authorize(Roles = "Owner,Admin")]
         [HttpDelete("Delete")]
         public ActionResult Delete(int id)
         {
@@ -81,7 +103,7 @@ namespace API_CDE.Controllers
             return BadRequest(acc);
         }
 
-        [Authorize(Roles = "Owner,Admin")]
+        //[Authorize(Roles = "Owner,Admin")]
         [HttpPut("AddSubordinate")]
         public ActionResult AddSubordinate(int idAccount, int idManager)
         {
@@ -91,7 +113,7 @@ namespace API_CDE.Controllers
             return Ok(acc);
         }
 
-        [Authorize(Roles = "Owner,Admin")]
+        //[Authorize(Roles = "Owner,Admin")]
         [HttpPut("DeleteSubordinate")]
         public ActionResult DeleteSubordinate(int idAccount)
         {
@@ -101,7 +123,7 @@ namespace API_CDE.Controllers
             return Ok(acc);
         }
 
-        [Authorize(Roles = "Owner,Admin,User")]
+        //[Authorize(Roles = "Owner,Admin,User")]
         [HttpPut("UpdateYourInfo")]
         public ActionResult Update(int id, string fullName, string phone, string address)
         {

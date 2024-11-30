@@ -16,7 +16,7 @@ namespace API_CDE.Controllers
             this.group = group;
         }
 
-        [Authorize(Roles = "Owner,Admin")]
+        //[Authorize(Roles = "Owner,Admin")]
         [HttpGet]
         public ActionResult Get()
         {
@@ -30,7 +30,7 @@ namespace API_CDE.Controllers
             return Ok(group.GetPositionGroupById(id));
         }
 
-        [Authorize(Roles = "Owner,Admin")]
+        //[Authorize(Roles = "Owner,Admin")]
         [HttpPost]
         public ActionResult Add(string name)
         {
